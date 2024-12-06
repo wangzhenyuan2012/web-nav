@@ -1,16 +1,22 @@
 "use client";
 
-import React, { useState, useEffect, createContext, useContext, useCallback } from 'react';
+"use client";
+
+import React, { useState, useEffect, useCallback } from 'react';
 import { PlusCircle, Bookmark, Folder, X, Edit2, ExternalLink, MoreVertical, Loader2 } from 'lucide-react';
-import { Dialog } from "@/components/ui/dialog";
-import { DialogContent } from "@/components/ui/dialog";
-import { DialogHeader } from "@/components/ui/dialog";
-import { DialogTitle } from "@/components/ui/dialog";
-import { DialogTrigger } from "@/components/ui/dialog";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
-import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -61,27 +67,29 @@ const DialogForm = ({ title, isOpen, onOpenChange, fields, onSubmit, submitText 
 );
 
 // Action Menu Component
-const ActionMenu = ({ actions }) => (
-  <DropdownMenu>
-    <DropdownMenuTrigger asChild>
-      <Button variant="ghost" size="sm" className={commonStyles.iconButton}>
-        <MoreVertical className="w-4 h-4" />
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="end" className="w-48">
-      {actions.map(({ icon: Icon, label, onClick, danger }) => (
-        <DropdownMenuItem 
-          key={label}
-          onClick={onClick}
-          className={\`flex items-center \${danger ? 'text-red-600 focus:text-red-700' : ''}\`}
-        >
-          <Icon className="w-4 h-4 mr-2" />
-          {label}
-        </DropdownMenuItem>
-      ))}
-    </DropdownMenuContent>
-  </DropdownMenu>
-);
+const ActionMenu = ({ actions }) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="sm" className={commonStyles.iconButton}>
+          <MoreVertical className="w-4 h-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        {actions.map(({ icon: Icon, label, onClick, danger }) => (
+          <DropdownMenuItem 
+            key={label}
+            onClick={onClick}
+            className={`flex items-center ${danger ? 'text-red-600 focus:text-red-700' : ''}`}
+          >
+            <Icon className="w-4 h-4 mr-2" />
+            {label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 // Bookmark Item Component
 const BookmarkItem = ({ bookmark, index, groupId }) => {
@@ -106,7 +114,7 @@ const BookmarkItem = ({ bookmark, index, groupId }) => {
   return (
     <div ref={itemRef} className={commonStyles.bookmarkItem}>
       <div className="flex items-center gap-3 flex-1 min-w-0">
-        <DragHandleButton label={\`Reorder \${bookmark.title}\`} />
+        <DragHandleButton label={`Reorder ${bookmark.title}`} />
         <Bookmark className="w-4 h-4 text-indigo-600 flex-shrink-0" />
         <div className="min-w-0">
           <a
@@ -276,7 +284,10 @@ const BookmarkManager = () => {
             fields={
               dialogState.type === 'group' 
                 ? [
-                    { id: 'name', label: '分组名称', placeholder: '输入分组名称', 
+                    { 
+                      id: 'name', 
+                      label: '分组名称', 
+                      placeholder: '输入分组名称', 
                       value: dialogState.data.name,
                       onChange: e => setDialogState(prev => ({
                         ...prev,
@@ -285,7 +296,10 @@ const BookmarkManager = () => {
                     }
                   ]
                 : [
-                    { id: 'group', type: 'select', label: '选择分组', 
+                    { 
+                      id: 'group', 
+                      type: 'select', 
+                      label: '选择分组', 
                       options: groups.map(g => ({ value: g.id, label: g.name })),
                       value: dialogState.data.groupId,
                       onChange: e => setDialogState(prev => ({
